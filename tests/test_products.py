@@ -6,6 +6,7 @@ from schemas.product_schema import assert_product_contract
 pytestmark = [pytest.mark.api, pytest.mark.live]
 
 
+@pytest.mark.read_only
 @pytest.mark.smoke
 @pytest.mark.contract
 def test_list_products_returns_200_and_records_list(reqres_client):
@@ -24,6 +25,7 @@ def test_list_products_returns_200_and_records_list(reqres_client):
     )
 
 
+@pytest.mark.read_only
 @pytest.mark.regression
 @pytest.mark.contract
 def test_products_match_basic_contract(reqres_client):
@@ -43,8 +45,13 @@ def test_products_match_basic_contract(reqres_client):
 
 
 @pytest.mark.regression
-def test_create_product_returns_success_status(reqres_client, valid_product_payload):
-    response = reqres_client.create_product(**valid_product_payload)
+@pytest.mark.write
+@pytest.mark.destructive
+def test_create_product_returns_success_status(
+    reqres_manage_client,
+    valid_product_payload,
+):
+    response = reqres_manage_client.create_product(**valid_product_payload)
 
     assert response.status_code in {200, 201}, (
         f"Create product should return 200 or 201. "

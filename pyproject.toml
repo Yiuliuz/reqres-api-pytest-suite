@@ -9,4 +9,7 @@ markers = [
     "regression: regression tests",
     "live: tests that make real requests against Reqres",
     "contract: tests that validate expected response structure",
+    "read_only: tests that only read data from the API",
+    "write: tests that create or update API data",
+    "destructive: tests that can change API state",
 ]

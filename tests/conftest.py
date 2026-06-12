@@ -6,16 +6,23 @@ from clients.reqres_client import ReqresClient
 
 
 def pytest_collection_modifyitems(config, items):
-    if os.getenv("REQRES_API_KEY"):
-        return
+    has_read_key = bool(os.getenv("REQRES_API_KEY") or os.getenv("REQRES_MANAGE_API_KEY"))
+    has_manage_key = bool(os.getenv("REQRES_MANAGE_API_KEY"))
 
     skip_live = pytest.mark.skip(
         reason="REQRES_API_KEY is not configured; live Reqres tests are skipped"
     )
+    skip_write = pytest.mark.skip(
+        reason="REQRES_MANAGE_API_KEY is not configured; write Reqres tests are skipped"
+    )
 
     for item in items:
-        if "live" in item.keywords:
+        if "live" in item.keywords and not has_read_key:
             item.add_marker(skip_live)
+        if (
+            "write" in item.keywords or "destructive" in item.keywords
+        ) and not has_manage_key:
+            item.add_marker(skip_write)
 
 
 @pytest.fixture(scope="session")
@@ -30,7 +37,12 @@ def reqres_environment():
 
 @pytest.fixture(scope="session")
 def api_key():
-    return os.getenv("REQRES_API_KEY")
+    return os.getenv("REQRES_API_KEY") or os.getenv("REQRES_MANAGE_API_KEY")
+
+
+@pytest.fixture(scope="session")
+def manage_api_key():
+    return os.getenv("REQRES_MANAGE_API_KEY")
 
 
 @pytest.fixture(scope="session")
@@ -41,6 +53,18 @@ def reqres_client(base_url, api_key, reqres_environment):
     return ReqresClient(
         base_url=base_url,
         api_key=api_key,
+        environment=reqres_environment,
+    )
+
+
+@pytest.fixture(scope="session")
+def reqres_manage_client(base_url, manage_api_key, reqres_environment):
+    if not manage_api_key:
+        pytest.skip("REQRES_MANAGE_API_KEY is not configured")
+
+    return ReqresClient(
+        base_url=base_url,
+        api_key=manage_api_key,
         environment=reqres_environment,
     )
 

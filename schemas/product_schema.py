@@ -1,5 +1,6 @@
-REQUIRED_PRODUCT_FIELDS = {"id", "data", "createdAt", "updatedAt"}
+REQUIRED_PRODUCT_FIELDS = {"id", "data"}
 REQUIRED_PRODUCT_DATA_FIELDS = {"name", "price"}
+OPTIONAL_PRODUCT_FIELDS = {"createdAt", "updatedAt"}
 
 
 def assert_product_contract(product):
@@ -19,4 +20,15 @@ def assert_product_contract(product):
     assert not missing_data_fields, (
         f"Product data does not match the expected contract. "
         f"Missing fields: {sorted(missing_data_fields)}. Product={product}"
+    )
+
+    unexpected_optional_types = [
+        field
+        for field in OPTIONAL_PRODUCT_FIELDS
+        if field in product and not isinstance(product[field], str)
+    ]
+
+    assert not unexpected_optional_types, (
+        f"Optional timestamp fields should be strings when present. "
+        f"Invalid fields: {unexpected_optional_types}. Product={product}"
     )
