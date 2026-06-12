@@ -74,4 +74,6 @@ def valid_product_payload():
     return {
         "name": "QA Practice Product",
         "price": 9.99,
+        "category":"Fix",
+        "in_stock":"true",
     }
