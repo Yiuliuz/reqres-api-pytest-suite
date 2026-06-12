@@ -58,7 +58,7 @@ def test_create_product_returns_success_status(
         f"Status={response.status_code}, body={response.text}"
     )
 
-    body = response.json()
+    body = response.json()["data"]
 
     assert "data" in body, f"Response should include data. Body={body}"
     assert body["data"]["name"] == valid_product_payload["name"], (
