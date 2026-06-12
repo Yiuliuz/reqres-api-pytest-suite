@@ -65,3 +65,28 @@ def test_create_product_returns_success_status(
         f"Created name does not match. Expected={valid_product_payload['name']}, "
         f"actual={body}"
     )
+
+
+
+@pytest.mark.parametrize(
+    "field, value",
+    [
+        pytest.param("name","",id="empty name"),
+        pytest.param("price","",id="empty price"),
+        pytest.param("category","",id="empty category"),
+        pytest.param("in_stock","",id="empty in_stock")
+    ],
+)
+def test_create_product_with_empty_field_returns_error_status(
+    reqres_manage_client,
+    valid_product_payload,
+    field,
+    value
+):
+    valid_product_payload[field]=value  
+    response = reqres_manage_client.create_product(**valid_product_payload)
+
+    assert response.status_code == 400, (
+        f"Create product with empty value in {field} field should return 400. "
+        f"Status={response.status_code}, product was created."
+    )
