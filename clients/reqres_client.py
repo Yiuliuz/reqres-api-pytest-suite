@@ -8,6 +8,9 @@ class ReqresClient:
             "User-Agent": "qa-pytest-practice/1.0",
         }
 
+    def get_product(self,id,project_id):
+        return self._request("GET", f"/api/collections/products/records/{id}?project_id={project_id}")
+    
     def get_products(self):
         return self._request("GET", "/api/collections/products/records")
 
