@@ -1,0 +1,12 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v -ra"
+markers = [
+    "api: tests related to API testing",
+    "smoke: critical and fast tests",
+    "regression: regression tests",
+    "live: tests that make real requests against Reqres",
+    "contract: tests that validate expected response structure",
+]
