@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1754" viewBox="0 0 1240 1754" role="img" aria-labelledby="title desc">
+  <title id="title">Recommended 13 Step Git Workflow</title>
+  <desc id="desc">Printable 13 step Git workflow from main update to pull request merge.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .title { font: 700 50px Arial, sans-serif; fill: #102033; }
+      .subtitle { font: 400 24px Arial, sans-serif; fill: #41546b; }
+      .step-num { font: 700 24px Arial, sans-serif; fill: #ffffff; }
+      .step-title { font: 700 24px Arial, sans-serif; fill: #102033; }
+      .body { font: 400 20px Arial, sans-serif; fill: #24364a; }
+      .code { font: 700 18px Consolas, monospace; fill: #14324f; }
+      .footer { font: 400 19px Arial, sans-serif; fill: #405268; }
+      .card { fill: #ffffff; stroke: #ccd6e3; stroke-width: 2; rx: 18; }
+      .blue { fill: #2f80ed; }
+      .green { fill: #279653; }
+      .yellow { fill: #c58a00; }
+      .red { fill: #ca3d3d; }
+      .line { stroke: #8aa0b7; stroke-width: 4; fill: none; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1240" height="1754"/>
+  <text class="title" x="80" y="90">Recommended Git Workflow</text>
+  <text class="subtitle" x="80" y="130">Use this flow for every new change in the Reqres Pytest suite.</text>
+
+  <g transform="translate(80,185)">
+    <line class="line" x1="60" y1="75" x2="60" y2="1410"/>
+
+    <g transform="translate(0,0)">
+      <circle class="blue" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">1</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Go to main</text>
+      <text class="code" x="145" y="84">git checkout main</text>
+    </g>
+
+    <g transform="translate(0,110)">
+      <circle class="blue" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">2</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Bring the latest remote changes</text>
+      <text class="code" x="145" y="84">git pull --ff-only</text>
+    </g>
+
+    <g transform="translate(0,220)">
+      <circle class="green" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">3</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Create one branch for one goal</text>
+      <text class="code" x="145" y="84">git checkout -b feature/add-negative-tests</text>
+    </g>
+
+    <g transform="translate(0,330)">
+      <circle class="green" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">4</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Make the code changes</text>
+      <text class="body" x="145" y="84">Keep the change focused: one feature, fix, or cleanup.</text>
+    </g>
+
+    <g transform="translate(0,440)">
+      <circle class="yellow" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">5</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Run the tests</text>
+      <text class="code" x="145" y="84">pytest</text>
+    </g>
+
+    <g transform="translate(0,550)">
+      <circle class="yellow" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">6</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Check what changed</text>
+      <text class="code" x="145" y="84">git status</text>
+    </g>
+
+    <g transform="translate(0,660)">
+      <circle class="yellow" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">7</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Review the actual diff</text>
+      <text class="code" x="145" y="84">git diff</text>
+    </g>
+
+    <g transform="translate(0,770)">
+      <circle class="green" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">8</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Stage only the intended files</text>
+      <text class="code" x="145" y="84">git add tests/test_products_negative.py clients/reqres_client.py</text>
+    </g>
+
+    <g transform="translate(0,880)">
+      <circle class="green" cx="60" cy="60" r="34"/><text class="step-num" x="53" y="69">9</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Commit with a useful message</text>
+      <text class="code" x="145" y="84">git commit -m "Add negative tests for products endpoint"</text>
+    </g>
+
+    <g transform="translate(0,990)">
+      <circle class="blue" cx="60" cy="60" r="34"/><text class="step-num" x="47" y="69">10</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Push the branch to GitHub</text>
+      <text class="code" x="145" y="84">git push -u origin feature/add-negative-tests</text>
+    </g>
+
+    <g transform="translate(0,1100)">
+      <circle class="blue" cx="60" cy="60" r="34"/><text class="step-num" x="47" y="69">11</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Open a Pull Request</text>
+      <text class="body" x="145" y="84">Explain what changed, why, and how you tested it.</text>
+    </g>
+
+    <g transform="translate(0,1210)">
+      <circle class="red" cx="60" cy="60" r="34"/><text class="step-num" x="47" y="69">12</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Merge only when reviewed and tests pass</text>
+      <text class="body" x="145" y="84">main should stay stable and understandable.</text>
+    </g>
+
+    <g transform="translate(0,1320)">
+      <circle class="blue" cx="60" cy="60" r="34"/><text class="step-num" x="47" y="69">13</text>
+      <rect class="card" x="115" y="20" width="945" height="82"/>
+      <text class="step-title" x="145" y="55">Update local main after merge</text>
+      <text class="code" x="145" y="84">git checkout main  |  git pull --ff-only</text>
+    </g>
+  </g>
+
+  <rect x="80" y="1645" width="1080" height="55" rx="14" fill="#102033"/>
+  <text x="120" y="1680" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff">
+    Golden rule: one branch, one intention, one clean story.
+  </text>
+</svg>

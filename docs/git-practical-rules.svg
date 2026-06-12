@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1754" viewBox="0 0 1240 1754" role="img" aria-labelledby="title desc">
+  <title id="title">Practical Git Rules</title>
+  <desc id="desc">Printable practical Git rules for daily work.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .title { font: 700 54px Arial, sans-serif; fill: #102033; }
+      .subtitle { font: 400 25px Arial, sans-serif; fill: #41546b; }
+      .rule-title { font: 700 25px Arial, sans-serif; fill: #102033; }
+      .body { font: 400 21px Arial, sans-serif; fill: #24364a; }
+      .code { font: 700 20px Consolas, monospace; fill: #14324f; }
+      .num { font: 700 24px Arial, sans-serif; fill: #ffffff; }
+      .card { fill: #ffffff; stroke: #ccd6e3; stroke-width: 2; rx: 20; }
+      .blue { fill: #2f80ed; }
+      .green { fill: #279653; }
+      .yellow { fill: #c58a00; }
+      .red { fill: #ca3d3d; }
+      .dark { fill: #102033; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1240" height="1754"/>
+  <text class="title" x="80" y="95">Practical Git Rules</text>
+  <text class="subtitle" x="80" y="137">Use these rules until they become automatic.</text>
+
+  <g transform="translate(80,205)">
+    <rect class="card" x="0" y="0" width="520" height="150"/>
+    <circle class="blue" cx="55" cy="55" r="32"/><text class="num" x="48" y="64">1</text>
+    <text class="rule-title" x="105" y="48">Before starting: check status</text>
+    <text class="code" x="105" y="82">git status</text>
+    <text class="body" x="105" y="116">Know your branch and pending changes.</text>
+
+    <rect class="card" x="560" y="0" width="520" height="150"/>
+    <circle class="blue" cx="615" cy="55" r="32"/><text class="num" x="608" y="64">2</text>
+    <text class="rule-title" x="665" y="48">Before switching branches</text>
+    <text class="code" x="665" y="82">git status</text>
+    <text class="body" x="665" y="116">Do not carry accidental changes.</text>
+
+    <rect class="card" x="0" y="190" width="520" height="150"/>
+    <circle class="yellow" cx="55" cy="245" r="32"/><text class="num" x="48" y="254">3</text>
+    <text class="rule-title" x="105" y="238">Before committing: inspect diff</text>
+    <text class="code" x="105" y="272">git diff</text>
+    <text class="body" x="105" y="306">Commit only what you understand.</text>
+
+    <rect class="card" x="560" y="190" width="520" height="150"/>
+    <circle class="green" cx="615" cy="245" r="32"/><text class="num" x="608" y="254">4</text>
+    <text class="rule-title" x="665" y="238">Before pushing: run tests</text>
+    <text class="code" x="665" y="272">pytest</text>
+    <text class="body" x="665" y="306">Do not push known broken work.</text>
+
+    <rect class="card" x="0" y="380" width="520" height="150"/>
+    <circle class="green" cx="55" cy="435" r="32"/><text class="num" x="48" y="444">5</text>
+    <text class="rule-title" x="105" y="428">One branch per objective</text>
+    <text class="code" x="105" y="462">feature/add-header-validation</text>
+    <text class="body" x="105" y="496">Small scope makes reviews easier.</text>
+
+    <rect class="card" x="560" y="380" width="520" height="150"/>
+    <circle class="green" cx="615" cy="435" r="32"/><text class="num" x="608" y="444">6</text>
+    <text class="rule-title" x="665" y="428">One commit, one intention</text>
+    <text class="body" x="665" y="462">A commit should explain one change.</text>
+    <text class="body" x="665" y="496">Avoid "fix", "changes", "final".</text>
+
+    <rect class="card" x="0" y="570" width="520" height="150"/>
+    <circle class="red" cx="55" cy="625" r="32"/><text class="num" x="48" y="634">7</text>
+    <text class="rule-title" x="105" y="618">Do not work directly on main</text>
+    <text class="body" x="105" y="652">main is the stable project line.</text>
+    <text class="body" x="105" y="686">Use feature branches.</text>
+
+    <rect class="card" x="560" y="570" width="520" height="150"/>
+    <circle class="red" cx="615" cy="625" r="32"/><text class="num" x="608" y="634">8</text>
+    <text class="rule-title" x="665" y="618">Never commit secrets</text>
+    <text class="body" x="665" y="652">No API keys, no .env files,</text>
+    <text class="body" x="665" y="686">no generated cache files.</text>
+
+    <rect class="card" x="0" y="760" width="520" height="150"/>
+    <circle class="yellow" cx="55" cy="815" r="32"/><text class="num" x="48" y="824">9</text>
+    <text class="rule-title" x="105" y="808">Do not mix unrelated work</text>
+    <text class="body" x="105" y="842">Keep cleanup, feature, and fix</text>
+    <text class="body" x="105" y="876">in separate PRs when possible.</text>
+
+    <rect class="card" x="560" y="760" width="520" height="150"/>
+    <circle class="red" cx="615" cy="815" r="32"/><text class="num" x="608" y="824">10</text>
+    <text class="rule-title" x="665" y="808">Be careful with destructive commands</text>
+    <text class="body" x="665" y="842">Do not use reset --hard unless</text>
+    <text class="body" x="665" y="876">you understand what will be lost.</text>
+  </g>
+
+  <rect x="80" y="1195" width="1080" height="330" rx="24" fill="#102033"/>
+  <text x="125" y="1255" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#ffffff">Your default checklist</text>
+  <text x="145" y="1320" font-family="Consolas, monospace" font-size="24" font-weight="700" fill="#d8ecff">git status</text>
+  <text x="145" y="1370" font-family="Consolas, monospace" font-size="24" font-weight="700" fill="#d8ecff">git diff</text>
+  <text x="145" y="1420" font-family="Consolas, monospace" font-size="24" font-weight="700" fill="#d8ecff">pytest</text>
+  <text x="145" y="1470" font-family="Consolas, monospace" font-size="24" font-weight="700" fill="#d8ecff">git add selected-files</text>
+  <text x="525" y="1320" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">Where am I?</text>
+  <text x="525" y="1370" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">What exactly changed?</text>
+  <text x="525" y="1420" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">Does the project still work?</text>
+  <text x="525" y="1470" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">Am I committing only the intended work?</text>
+
+  <text x="80" y="1645" font-family="Arial, sans-serif" font-size="22" fill="#405268">
+    If you feel lost, do not guess. Run git status, read slowly, then decide.
+  </text>
+</svg>

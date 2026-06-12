@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1754" viewBox="0 0 1240 1754" role="img" aria-labelledby="title desc">
+  <title id="title">Git Workflow Overview</title>
+  <desc id="desc">Printable Git workflow overview showing working directory, staging area, local repository, GitHub remote, pull requests, and correct mindset.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .title { font: 700 54px Arial, sans-serif; fill: #102033; }
+      .subtitle { font: 400 25px Arial, sans-serif; fill: #41546b; }
+      .section-title { font: 700 30px Arial, sans-serif; fill: #102033; }
+      .card-title { font: 700 27px Arial, sans-serif; fill: #102033; }
+      .body { font: 400 22px Arial, sans-serif; fill: #24364a; }
+      .small { font: 400 19px Arial, sans-serif; fill: #405268; }
+      .code { font: 700 20px Consolas, monospace; fill: #14324f; }
+      .pill-text { font: 700 20px Arial, sans-serif; fill: #ffffff; }
+      .note-title { font: 700 25px Arial, sans-serif; fill: #102033; }
+      .note { font: 400 21px Arial, sans-serif; fill: #24364a; }
+      .card { fill: #ffffff; stroke: #ccd6e3; stroke-width: 2; rx: 22; }
+      .card-blue { fill: #eef6ff; stroke: #8bbce8; stroke-width: 2; rx: 22; }
+      .card-green { fill: #eefaf3; stroke: #8ccfa7; stroke-width: 2; rx: 22; }
+      .card-yellow { fill: #fff7e6; stroke: #e8c36c; stroke-width: 2; rx: 22; }
+      .card-red { fill: #fff0f0; stroke: #e09a9a; stroke-width: 2; rx: 22; }
+      .dark { fill: #102033; }
+      .blue { fill: #2f80ed; }
+      .green { fill: #279653; }
+      .yellow { fill: #c58a00; }
+      .red { fill: #ca3d3d; }
+      .line { stroke: #24364a; stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .line-blue { stroke: #2f80ed; stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 14 7 L 0 14 z" fill="#24364a"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 14 7 L 0 14 z" fill="#2f80ed"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1240" height="1754"/>
+
+  <text class="title" x="80" y="95">Git Workflow Overview</text>
+  <text class="subtitle" x="80" y="137">How your code moves from local changes to GitHub and into main.</text>
+
+  <rect class="card-blue" x="80" y="205" width="1080" height="300"/>
+  <text class="section-title" x="120" y="255">The core pipeline</text>
+
+  <rect class="card" x="120" y="300" width="220" height="120"/>
+  <text class="card-title" x="150" y="345">1. Working</text>
+  <text class="card-title" x="150" y="378">Directory</text>
+  <text class="small" x="150" y="410">You edit files</text>
+
+  <line class="line" x1="350" y1="360" x2="465" y2="360" marker-end="url(#arrow)"/>
+  <rect class="card" x="480" y="300" width="220" height="120"/>
+  <text class="card-title" x="510" y="345">2. Staging</text>
+  <text class="card-title" x="510" y="378">Area</text>
+  <text class="small" x="510" y="410">git add</text>
+
+  <line class="line" x1="710" y1="360" x2="825" y2="360" marker-end="url(#arrow)"/>
+  <rect class="card" x="840" y="300" width="250" height="120"/>
+  <text class="card-title" x="870" y="345">3. Local Repo</text>
+  <text class="small" x="870" y="382">git commit</text>
+  <text class="small" x="870" y="410">history on your PC</text>
+
+  <rect class="dark" x="210" y="445" width="140" height="38" rx="19"/>
+  <text class="pill-text" x="232" y="471">git status</text>
+  <rect class="dark" x="545" y="445" width="105" height="38" rx="19"/>
+  <text class="pill-text" x="568" y="471">git add</text>
+  <rect class="dark" x="885" y="445" width="145" height="38" rx="19"/>
+  <text class="pill-text" x="908" y="471">git commit</text>
+
+  <rect class="card-green" x="80" y="555" width="1080" height="330"/>
+  <text class="section-title" x="120" y="605">Branches and Pull Requests</text>
+
+  <line class="line-blue" x1="170" y1="710" x2="990" y2="710" marker-end="url(#arrow-blue)"/>
+  <circle class="blue" cx="210" cy="710" r="18"/>
+  <circle class="blue" cx="420" cy="710" r="18"/>
+  <circle class="blue" cx="630" cy="710" r="18"/>
+  <text class="code" x="155" y="760">main</text>
+  <text class="small" x="160" y="793">stable project history</text>
+
+  <path class="line" d="M 420 710 C 470 640, 540 635, 610 645 C 720 660, 820 650, 920 600" marker-end="url(#arrow)"/>
+  <circle class="green" cx="610" cy="645" r="18"/>
+  <circle class="green" cx="770" cy="640" r="18"/>
+  <rect class="green" x="505" y="570" width="335" height="40" rx="20"/>
+  <text class="pill-text" x="530" y="597">feature/add-negative-tests</text>
+
+  <rect class="card" x="865" y="555" width="235" height="120"/>
+  <text class="card-title" x="900" y="602">Pull Request</text>
+  <text class="small" x="900" y="638">Review, checks,</text>
+  <text class="small" x="900" y="665">discussion, merge</text>
+
+  <path class="line-blue" d="M 920 600 C 990 625, 1010 665, 990 710" marker-end="url(#arrow-blue)"/>
+
+  <rect class="card-yellow" x="80" y="935" width="1080" height="360"/>
+  <text class="section-title" x="120" y="985">Correct mindset</text>
+
+  <text class="note-title" x="130" y="1045">A good Git history says:</text>
+  <text class="note" x="160" y="1090">1. First we removed generated cache files.</text>
+  <text class="note" x="160" y="1130">2. Then we aligned the Reqres contract with real behavior.</text>
+  <text class="note" x="160" y="1170">3. Then we added negative tests.</text>
+  <text class="note" x="160" y="1210">4. Then we added header validation.</text>
+
+  <line class="line" x1="610" y1="1030" x2="610" y2="1245"/>
+
+  <text class="note-title" x="660" y="1045">A weak Git history says:</text>
+  <text class="note" x="690" y="1090">changes</text>
+  <text class="note" x="690" y="1130">fix</text>
+  <text class="note" x="690" y="1170">more changes</text>
+  <text class="note" x="690" y="1210">final-final-now-it-works</text>
+
+  <rect class="card-red" x="80" y="1345" width="1080" height="260"/>
+  <text class="section-title" x="120" y="1395">Daily rule</text>
+  <text class="body" x="120" y="1450">Before you change anything, ask Git where you are:</text>
+  <rect class="dark" x="120" y="1485" width="245" height="54" rx="12"/>
+  <text class="pill-text" x="150" y="1521">git status</text>
+  <text class="body" x="410" y="1520">Then create a small branch for one clear goal.</text>
+  <text class="body" x="120" y="1575">Small branches create clean PRs. Clean PRs create understandable project history.</text>
+
+  <text class="small" x="80" y="1690">Print tip: keep this next to your terminal. If you feel lost, run git status first.</text>
+</svg>
