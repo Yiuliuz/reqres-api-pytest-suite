@@ -10,16 +10,19 @@ pytestmark = [pytest.mark.api, pytest.mark.live]
 @pytest.mark.smoke
 @pytest.mark.contract
 def test_list_products_returns_200_and_records_list(reqres_client):
+    #GIVEN a configured api client.
+    
+    #WHEN get a list of products
     response = reqres_client.get_products()
 
+    #THEN response status code is positive
     assert response.status_code == 200, (
         f"GET products should return 200. "
-        f"Status={response.status_code}, body={response.text}"
-    )
-
+        f"Status={response.status_code}, body={response.text}")
+    #AND there is data in the body
     body = response.json()
-
     assert "data" in body, f"Response should include 'data'. Body={body}"
+    #AND data is in list type
     assert isinstance(body["data"], list), (
         f"The data field should be a list. Body={body}"
     )
@@ -29,17 +32,19 @@ def test_list_products_returns_200_and_records_list(reqres_client):
 @pytest.mark.regression
 @pytest.mark.contract
 def test_products_match_basic_contract(reqres_client):
+    #GIVEN a configured api client.
+
+    #WHEN get list of products
     response = reqres_client.get_products()
 
+    #THEN response status code is positive.
     assert response.status_code == 200, (
         f"GET products failed before contract validation. "
-        f"Status={response.status_code}, body={response.text}"
-    )
-
+        f"Status={response.status_code}, body={response.text}")
+    #AND There is products
     products = response.json()["data"]
-
     assert products, "The products collection should contain sample data"
-
+    #AND product contract is correct
     for product in products:
         assert_product_contract(product)
 
@@ -51,16 +56,20 @@ def test_create_product_returns_success_status(
     reqres_manage_client,
     valid_product_payload,
 ):
+    #GIVEN a configured manage api client.
+    #AND a valid product payload
+
+    #WHEN manage api client creates a valid product
     response = reqres_manage_client.create_product(**valid_product_payload)
 
+    #THEN response status code is positive
     assert response.status_code in {200, 201}, (
         f"Create product should return 200 or 201. "
-        f"Status={response.status_code}, body={response.text}"
-    )
-
+        f"Status={response.status_code}, body={response.text}")
+    #AND response includes data
     body = response.json()["data"]
-
     assert "data" in body, f"Response should include data. Body={body}"
+    #AND product name match
     assert body["data"]["name"] == valid_product_payload["name"], (
         f"Created name does not match. Expected={valid_product_payload['name']}, "
         f"actual={body}"
@@ -84,10 +93,17 @@ def test_create_product_with_empty_field_returns_error_status(
     field,
     value
 ):
+    # GIVEN a configured manage api client
+    # AND a valid product payload
+    # AND parametrized new field and value
+    # AND a new configured payload
     payload=valid_product_payload.copy()
     payload[field]=value 
+    
+    # WHEN creates a product with new payload
     response = reqres_manage_client.create_product(**payload)
 
+    #THEN response status code is negative
     assert response.status_code == 400, (
         f"Create product with empty value in {field} field should return 400, it returns {response.status_code} "
     )
@@ -115,10 +131,17 @@ def test_create_product_with_invalid_type_field_returns_error_status(
     field,
     type_try
 ):
+    # GIVEN a configured manage api client
+    # AND a valid product payload
+    # AND parametrized new field and type
+    # AND a new configured payload
     payload=valid_product_payload.copy()
     payload[field]=type_try
+    
+    # WHEN create a product with new payload
     response = reqres_manage_client.create_product(**payload)
     
+    #THEN response status code is negative
     assert response.status_code == 400, (
         f"Create product {type(type_try)} {field} should return 400, it returns {response.status_code}"
     )
