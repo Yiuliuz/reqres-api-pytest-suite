@@ -67,7 +67,8 @@ def test_create_product_returns_success_status(
     )
 
 
-
+@pytest.mark.write
+@pytest.mark.contract
 @pytest.mark.parametrize(
     "field, value",
     [
@@ -83,10 +84,41 @@ def test_create_product_with_empty_field_returns_error_status(
     field,
     value
 ):
-    valid_product_payload[field]=value  
-    response = reqres_manage_client.create_product(**valid_product_payload)
+    payload=valid_product_payload.copy()
+    payload[field]=value 
+    response = reqres_manage_client.create_product(**payload)
 
     assert response.status_code == 400, (
-        f"Create product with empty value in {field} field should return 400. "
-        f"Status={response.status_code}, product was created."
+        f"Create product with empty value in {field} field should return 400, it returns {response.status_code} "
+    )
+
+
+@pytest.mark.write
+@pytest.mark.contract
+@pytest.mark.parametrize(
+    "field , type_try",
+    [
+        pytest.param("name",123,id="int type name"),
+        pytest.param("name",True,id="list type name"),
+        pytest.param("name",[],id="set type name"),
+        pytest.param("name",{},id="dict type name"),
+        
+        pytest.param("price","abc",id="str type price"),
+        pytest.param("price",True,id="list type price"),
+        pytest.param("price",[],id="set type price"),
+        pytest.param("price",{},id="dict type price")
+    ],
+)
+def test_create_product_with_invalid_type_field_returns_error_status(
+    reqres_manage_client,
+    valid_product_payload,
+    field,
+    type_try
+):
+    payload=valid_product_payload.copy()
+    payload[field]=type_try
+    response = reqres_manage_client.create_product(**payload)
+    
+    assert response.status_code == 400, (
+        f"Create product {type(type_try)} {field} should return 400, it returns {response.status_code}"
     )
