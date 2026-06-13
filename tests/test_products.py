@@ -145,3 +145,35 @@ def test_create_product_with_invalid_type_field_returns_error_status(
     assert response.status_code == 400, (
         f"Create product {type(type_try)} {field} should return 400, it returns {response.status_code}"
     )
+
+
+@pytest.mark.write
+@pytest.mark.contract
+@pytest.mark.parametrize(
+    "field",
+    [
+        pytest.param("name"),
+        pytest.param("price"),
+        pytest.param("category"),
+        pytest.param("in_stock")
+    ]
+)
+def test_create_product_with_missing_field_returns_error_status(
+    reqres_manage_client,
+    valid_product_payload,
+    field
+):
+    # GIVEN a configured manage api client
+    # AND a valid product payload
+    # AND parametrized new field
+    # AND a new configured payload
+    payload=valid_product_payload.copy()
+    payload.pop(field)
+
+    # WHEN create a product with new payload
+    response = reqres_manage_client.create_product(**payload)
+
+    #THEN response status code is negative
+    assert response.status_code == 400, (
+        f"Create product with missing {field} should return 400, it returns {response.status_code}"
+    )
