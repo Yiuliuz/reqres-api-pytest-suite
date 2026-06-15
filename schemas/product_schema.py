@@ -1,7 +1,35 @@
+from jsonschema import ValidationError,validate
+
 REQUIRED_PRODUCT_FIELDS = {"id", "data"}
 REQUIRED_PRODUCT_DATA_FIELDS = {"name", "price"}
 OPTIONAL_PRODUCT_FIELDS = {"createdAt", "updatedAt"}
+PRODUCT_DATA_SCHEMA = {
+    "type": "object",
+    "required": [
+        "name",
+        "price",
+        "category",
+        "in_stock"
+    ],
+    "properties": {
+        "name": {"type": "string"},
+        "price": {"type": "number"},
+        "category": {"type": "string"},
+        "in_stock": {"type": "boolean"}
+    }
+}
 
+def assert_product_schema(product):
+    try:
+        validate(
+            instance=product["data"],
+            schema=PRODUCT_DATA_SCHEMA
+        )
+    except ValidationError as e:
+        raise AssertionError(
+            f"Product schema validation failed: {e.message}\n"
+            f"Product={product}"
+        )
 
 def assert_product_contract(product):
     # GIVEN a product response payload

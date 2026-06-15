@@ -1,6 +1,6 @@
 import pytest
 
-from schemas.product_schema import assert_product_contract
+from schemas.product_schema import assert_product_contract,assert_product_schema
 
 
 pytestmark = [pytest.mark.api, pytest.mark.live]
@@ -47,6 +47,7 @@ def test_products_match_basic_contract(reqres_client):
     #AND product contract is correct
     for product in products:
         assert_product_contract(product)
+        assert_product_schema(product)
 
 
 @pytest.mark.regression
