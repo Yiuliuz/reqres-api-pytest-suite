@@ -1,7 +1,11 @@
 REQUIRED_PRODUCT_FIELDS = {"id", "data"}
-REQUIRED_PRODUCT_DATA_FIELDS = {"name", "price"}
+REQUIRED_PRODUCT_DATA_FIELDS = {"name", "price", "category", "in_stock"}
 OPTIONAL_PRODUCT_FIELDS = {"createdAt", "updatedAt"}
-
+EXPECTED_PRODUCT_DATA_TYPES = {
+    "name": str,
+    "price": (int, float),
+    "category": str,
+    "in_stock": bool,}
 
 def assert_product_contract(product):
     # GIVEN a product response payload
@@ -25,6 +29,12 @@ def assert_product_contract(product):
         f"Product data does not match the expected contract. "
         f"Missing fields: {sorted(missing_data_fields)}. Product={product}"
     )
+    #AND data fields type are the expected
+    data = product["data"]
+    for field, expected_type in EXPECTED_PRODUCT_DATA_TYPES.items():
+        assert isinstance(data[field], expected_type), (
+            f"{field} should be {expected_type}. "
+            f"Actual value={data[field]!r}")
     #AND optional timestamp fields should be strings when present
     unexpected_optional_types = [
         field
