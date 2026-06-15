@@ -14,14 +14,9 @@ class ReqresClient:
     def get_products(self):
         return self._request("GET", "/api/collections/products/records")
 
-    def create_product(self, name, price, category, in_stock):
+    def create_product(self, body: dict):
         payload = {
-            "data": {
-                "name": name,
-                "price": price,
-                "category":category,
-                "in_stock":in_stock
-            }
+            "data": body
         }
 
         return self._request(
