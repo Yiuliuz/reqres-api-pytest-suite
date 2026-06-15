@@ -60,7 +60,7 @@ def test_create_product_returns_success_status(
     #AND a valid product payload
 
     #WHEN manage api client creates a valid product
-    response = reqres_manage_client.create_product(**valid_product_payload)
+    response = reqres_manage_client.create_product(valid_product_payload)
 
     #THEN response status code is positive
     assert response.status_code in {200, 201}, (
@@ -101,7 +101,7 @@ def test_create_product_with_empty_field_returns_error_status(
     payload[field]=value 
     
     # WHEN creates a product with new payload
-    response = reqres_manage_client.create_product(**payload)
+    response = reqres_manage_client.create_product(payload)
 
     #THEN response status code is negative
     assert response.status_code == 400, (
@@ -139,7 +139,7 @@ def test_create_product_with_invalid_type_field_returns_error_status(
     payload[field]=type_try
     
     # WHEN create a product with new payload
-    response = reqres_manage_client.create_product(**payload)
+    response = reqres_manage_client.create_product(payload)
     
     #THEN response status code is negative
     assert response.status_code == 400, (
@@ -171,7 +171,7 @@ def test_create_product_with_missing_field_returns_error_status(
     payload.pop(field)
 
     # WHEN create a product with new payload
-    response = reqres_manage_client.create_product(**payload)
+    response = reqres_manage_client.create_product(payload)
 
     #THEN response status code is negative
     assert response.status_code == 400, (
