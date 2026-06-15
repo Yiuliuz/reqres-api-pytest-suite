@@ -13,6 +13,9 @@ class ReqresClient:
     
     def get_products(self):
         return self._request("GET", "/api/collections/products/records")
+    
+    def delete_product(self,id):
+        return self._request("DELETE", f"/api/collections/products/records/{id}")
 
     def create_product(self, body: dict):
         payload = {

@@ -78,6 +78,53 @@ def test_create_product_returns_success_status(
 
 
 @pytest.mark.write
+@pytest.mark.destructive
+@pytest.mark.regression
+def test_delete_product_returns_204_and_removes_product(
+    reqres_manage_client,
+    valid_product_payload,
+):
+    # GIVEN a configured manage api client
+    # AND a valid product payload
+
+    # WHEN manage api client creates a product
+    create_response = reqres_manage_client.create_product(
+        valid_product_payload
+    )
+
+    # THEN product is created
+    assert create_response.status_code in {200, 201}, (
+        f"Create product should return 200 or 201. "
+        f"Status={create_response.status_code}, "
+        f"Body={create_response.text}"
+    )
+
+    # AND the created product has a valid id
+    product_id = create_response.json()["data"]["id"]
+
+    # WHEN the product is deleted
+    delete_response = reqres_manage_client.delete_product(
+        product_id
+    )
+
+    # THEN response status code is positive
+    assert delete_response.status_code == 204, (
+        f"Delete product should return 204. "
+        f"Status={delete_response.status_code}"
+    )
+
+    # AND the product no longer exists
+    get_response = reqres_manage_client.get_product(
+        product_id
+    )
+
+    assert get_response.status_code == 404, (
+        f"Deleted product should not be found. "
+        f"Status={get_response.status_code}"
+    )
+
+
+@pytest.mark.write
 @pytest.mark.contract
 @pytest.mark.negative
 @pytest.mark.parametrize(
