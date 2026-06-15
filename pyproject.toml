@@ -12,4 +12,5 @@ markers = [
     "read_only: tests that only read data from the API",
     "write: tests that create or update API data",
     "destructive: tests that can change API state",
+    "negative: Error handling scenarios",
 ]
