@@ -183,7 +183,7 @@ def test_create_product_with_missing_field_returns_error_status(
 
 
 
-@pytest.mark.read
+@pytest.mark.read_only
 @pytest.mark.negative
 def test_get_nonexist_product_returns_404(reqres_client):
     #GIVEN a configured api client
