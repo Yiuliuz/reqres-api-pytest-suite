@@ -1,6 +1,6 @@
 import pytest
 
-from schemas.product_schema import assert_product_contract,assert_product_schema
+from schemas.product_schema import assert_product_contract,assert_product_schema,assert_product_matches_payload
 
 
 pytestmark = [pytest.mark.api, pytest.mark.live]
@@ -76,6 +76,49 @@ def test_create_product_returns_success_status(
         f"actual={body}"
     )
 
+
+@pytest.mark.write
+@pytest.mark.regression
+def test_update_product_returns_success_and_persists_changes(
+        reqres_manage_client,
+        valid_product_payload,
+):
+    #GIVEN a configured manage api client
+    #AND a valid product payload
+
+    # WHEN manage api client creates a product
+    create_response = reqres_manage_client.create_product(
+        valid_product_payload
+    )
+
+    # THEN product is created
+    assert create_response.status_code in {200, 201}, (
+        f"Create product should return 200 or 201. "
+        f"Status={create_response.status_code}, "
+        f"Body={create_response.text}"
+    )
+    # AND the created product has a valid id
+    product_id = create_response.json()["data"]["id"]
+    # AND configure a new product payload
+    payload=valid_product_payload.copy()
+    payload["name"]="New Testing Name"
+    payload["price"]=20
+    payload["category"]="New Testing Category"
+    payload["in_stock"]=False
+
+    # WHEN update product by id
+    put_response=reqres_manage_client.update_product(product_id,payload)
+
+    #THEN response status code is positive
+    assert put_response.status_code == 200, (
+        f"Update product should return 200"
+        f"Status={put_response.status_code}"
+        f"Body={put_response.text}"
+    )
+    #AND the changes persits
+    get_response=reqres_manage_client.get_product(product_id)
+    get_body=get_response.json()["data"]["data"]
+    assert_product_matches_payload(get_body,payload)
 
 @pytest.mark.write
 @pytest.mark.destructive
