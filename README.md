@@ -102,3 +102,18 @@ pytest -m "write or destructive"
 Live tests depend on network access, credentials, and external availability. In a professional environment, these tests should be separated from unit tests or local contract tests to avoid false negatives.
 
 Read-only tests can use `REQRES_API_KEY`. Write or destructive tests require `REQRES_MANAGE_API_KEY`, because public/read-only keys may return `403 insufficient_scope`.
+
+
+## Known API Issues
+
+The following defects were identified during testing of the
+`/api/collections/products/records` endpoint:
+
+| Issue | Expected Behavior | Actual Behavior |
+|---------|---------|---------|
+| Missing required field | 400 Bad Request | Product is created |
+| Empty required field | 400 Bad Request | Product is created |
+| Invalid data type | 400 Bad Request | Product is created |
+
+These issues were discovered through automated negative testing
+and are currently documented as known API limitations.
