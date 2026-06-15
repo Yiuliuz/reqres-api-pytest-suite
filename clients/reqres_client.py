@@ -28,6 +28,17 @@ class ReqresClient:
             json=payload,
         )
 
+    def update_product(self,id,body:dict):
+        payload = {
+            "data" : body
+        } 
+        
+        return self._request(
+            "PUT",
+            f"/api/collections/products/records/{id}",
+            json=payload,
+        )
+
     def _request(self, method, path, **kwargs):
         import requests
 
