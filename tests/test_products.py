@@ -2,6 +2,7 @@ import pytest
 
 from schemas.product_schema import assert_product_contract,assert_product_schema
 from helpers.product_assertions import assert_product_matches_payload
+from helpers.cleanup_helpers import cleanup_product_if_created
 
 
 pytestmark = [pytest.mark.api, pytest.mark.live]
@@ -64,18 +65,21 @@ def test_create_product_returns_success_status(
     #WHEN manage api client creates a valid product
     response = reqres_manage_client.create_product(valid_product_payload)
 
-    #THEN response status code is positive
-    assert response.status_code in {200, 201}, (
-        f"Create product should return 200 or 201. "
-        f"Status={response.status_code}, body={response.text}")
-    #AND response includes data
-    body = response.json()["data"]
-    assert "data" in body, f"Response should include data. Body={body}"
-    #AND product name match
-    assert body["data"]["name"] == valid_product_payload["name"], (
-        f"Created name does not match. Expected={valid_product_payload['name']}, "
-        f"actual={body}"
-    )
+    try:
+        #THEN response status code is positive
+        assert response.status_code in {200, 201}, (
+            f"Create product should return 200 or 201. "
+            f"Status={response.status_code}, body={response.text}")
+        #AND response includes data
+        body = response.json()["data"]
+        assert "data" in body, f"Response should include data. Body={body}"
+        #AND product name match
+        assert body["data"]["name"] == valid_product_payload["name"], (
+            f"Created name does not match. Expected={valid_product_payload['name']}, "
+            f"actual={body}"
+        )
+    finally:
+        cleanup_product_if_created(reqres_manage_client,response)
 
 
 @pytest.mark.write
@@ -91,35 +95,37 @@ def test_update_product_returns_success_and_persists_changes(
     create_response = reqres_manage_client.create_product(
         valid_product_payload
     )
+    try:
+        # THEN product is created
+        assert create_response.status_code in {200, 201}, (
+            f"Create product should return 200 or 201. "
+            f"Status={create_response.status_code}, "
+            f"Body={create_response.text}"
+        )
+        # AND the created product has a valid id
+        product_id = create_response.json()["data"]["id"]
+        # AND configure a new product payload
+        payload=valid_product_payload.copy()
+        payload["name"]="New Testing Name"
+        payload["price"]=20
+        payload["category"]="New Testing Category"
+        payload["in_stock"]=False
 
-    # THEN product is created
-    assert create_response.status_code in {200, 201}, (
-        f"Create product should return 200 or 201. "
-        f"Status={create_response.status_code}, "
-        f"Body={create_response.text}"
-    )
-    # AND the created product has a valid id
-    product_id = create_response.json()["data"]["id"]
-    # AND configure a new product payload
-    payload=valid_product_payload.copy()
-    payload["name"]="New Testing Name"
-    payload["price"]=20
-    payload["category"]="New Testing Category"
-    payload["in_stock"]=False
+        # WHEN update product by id
+        put_response=reqres_manage_client.update_product(product_id,payload)
 
-    # WHEN update product by id
-    put_response=reqres_manage_client.update_product(product_id,payload)
-
-    #THEN response status code is positive
-    assert put_response.status_code == 200, (
-        f"Update product should return 200"
-        f"Status={put_response.status_code}"
-        f"Body={put_response.text}"
-    )
-    #AND the changes persits
-    get_response=reqres_manage_client.get_product(product_id)
-    get_body=get_response.json()["data"]["data"]
-    assert_product_matches_payload(get_body,payload)
+        #THEN response status code is positive
+        assert put_response.status_code == 200, (
+            f"Update product should return 200"
+            f"Status={put_response.status_code}"
+            f"Body={put_response.text}"
+        )
+        #AND the changes persits
+        get_response=reqres_manage_client.get_product(product_id)
+        get_body=get_response.json()["data"]["data"]
+        assert_product_matches_payload(get_body,payload)
+    finally:
+        cleanup_product_if_created(reqres_manage_client, create_response)
 
 @pytest.mark.write
 @pytest.mark.destructive
@@ -196,10 +202,13 @@ def test_create_product_with_empty_field_returns_error_status(
     # WHEN creates a product with new payload
     response = reqres_manage_client.create_product(payload)
 
-    #THEN response status code is negative
-    assert response.status_code == 400, (
-        f"Create product with empty value in {field} field should return 400, it returns {response.status_code} "
-    )
+    try:
+        #THEN response status code is negative
+        assert response.status_code == 400, (
+            f"Create product with empty value in {field} field should return 400, it returns {response.status_code} "
+        )
+    finally:
+        cleanup_product_if_created(reqres_manage_client, response)
 
 
 @pytest.mark.write
@@ -235,11 +244,13 @@ def test_create_product_with_invalid_type_field_returns_error_status(
     # WHEN create a product with new payload
     response = reqres_manage_client.create_product(payload)
     
-    #THEN response status code is negative
-    assert response.status_code == 400, (
-        f"Create product {type(type_try)} {field} should return 400, it returns {response.status_code}"
-    )
-
+    try:
+        #THEN response status code is negative
+        assert response.status_code == 400, (
+            f"Create product {type(type_try)} {field} should return 400, it returns {response.status_code}"
+        )
+    finally:
+        cleanup_product_if_created(reqres_manage_client, response)
 
 @pytest.mark.write
 @pytest.mark.contract
@@ -268,11 +279,13 @@ def test_create_product_with_missing_field_returns_error_status(
     # WHEN create a product with new payload
     response = reqres_manage_client.create_product(payload)
 
-    #THEN response status code is negative
-    assert response.status_code == 400, (
-        f"Create product with missing {field} should return 400, it returns {response.status_code}"
-    )
-
+    try:
+        #THEN response status code is negative
+        assert response.status_code == 400, (
+            f"Create product with missing {field} should return 400, it returns {response.status_code}"
+        )
+    finally:
+        cleanup_product_if_created(reqres_manage_client, response)
 
 
 @pytest.mark.read_only
