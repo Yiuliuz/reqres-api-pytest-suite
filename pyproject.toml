@@ -13,4 +13,5 @@ markers = [
     "write: tests that create or update API data",
     "destructive: tests that can change API state",
     "negative: Error handling scenarios",
+    "known_issue: tests affected by known API limitations",
 ]
