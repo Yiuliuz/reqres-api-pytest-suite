@@ -1,0 +1,64 @@
+# .github/workflows/ci.yml
+# GitHub Actions CI workflow for the ReqRes API test suite.
+#
+# Automatically runs pytest on every push to main and on every pull request.
+# Tests marked with @pytest.mark.live are automatically skipped if
+# REQRES_API_KEY is not configured as a GitHub Secret.
+
+name: CI — Reqres API Test Suite
+
+on:
+  push:
+    branches: [main]          # Runs on direct pushes to main
+  pull_request:
+    branches: [main]          # Runs on any PR targeting main
+  workflow_dispatch:          # Allows manual execution from the GitHub UI
+
+jobs:
+  test:
+    name: Pytest (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest    # Clean Linux VM for each run
+
+    # Matrix strategy: runs the job once for each Python version.
+    # This helps validate compatibility across multiple environments.
+    strategy:
+      fail-fast: false        # If Python 3.11 fails, 3.12 will still run
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      # 1. Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Install the Python version defined in the matrix
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # 3. Cache pip dependencies.
+      # The key includes the hash of requirements.txt.
+      # If the file has not changed, installation becomes much faster.
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # 4. Install project dependencies
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # 5. Run the complete test suite.
+      # Secrets are exposed as environment variables.
+      # If they are not configured, they will be empty and
+      # @live tests will be skipped by conftest.py.
+      - name: Run test suite
+        env:
+          REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+          REQRES_MANAGE_API_KEY: ${{ secrets.REQRES_MANAGE_API_KEY }}
+          REQRES_ENV: ${{ secrets.REQRES_ENV }}
+        run: pytest -v
