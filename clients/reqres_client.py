@@ -13,6 +13,9 @@ class ReqresClient:
     
     def get_products(self):
         return self._request("GET", "/api/collections/products/records")
+    
+    def delete_product(self,id):
+        return self._request("DELETE", f"/api/collections/products/records/{id}")
 
     def create_product(self, body: dict):
         payload = {
@@ -22,6 +25,17 @@ class ReqresClient:
         return self._request(
             "POST",
             "/api/collections/products/records",
+            json=payload,
+        )
+
+    def update_product(self,id,body:dict):
+        payload = {
+            "data" : body
+        } 
+        
+        return self._request(
+            "PUT",
+            f"/api/collections/products/records/{id}",
             json=payload,
         )
 
