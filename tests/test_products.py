@@ -1,6 +1,7 @@
 import pytest
 
-from schemas.product_schema import assert_product_contract,assert_product_schema,assert_product_matches_payload
+from schemas.product_schema import assert_product_contract,assert_product_schema
+from helpers.product_assertions import assert_product_matches_payload
 
 
 pytestmark = [pytest.mark.api, pytest.mark.live]
