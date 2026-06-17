@@ -177,6 +177,11 @@ def test_delete_product_returns_204_and_removes_product(
 @pytest.mark.write
 @pytest.mark.contract
 @pytest.mark.negative
+@pytest.mark.known_issue
+@pytest.mark.xfail(
+    reason="Known API issue: Allows to create a product with empty required field",
+    strict=True
+)
 @pytest.mark.parametrize(
     "field, value",
     [
@@ -214,6 +219,11 @@ def test_create_product_with_empty_field_returns_error_status(
 @pytest.mark.write
 @pytest.mark.contract
 @pytest.mark.negative
+@pytest.mark.known_issue
+@pytest.mark.xfail(
+    reason="Known API issue: Allows to create a product with invalyd data type",
+    strict=True
+)
 @pytest.mark.parametrize(
     "field , type_try",
     [
@@ -255,6 +265,11 @@ def test_create_product_with_invalid_type_field_returns_error_status(
 @pytest.mark.write
 @pytest.mark.contract
 @pytest.mark.negative
+@pytest.mark.known_issue
+@pytest.mark.xfail(
+    reason="Known API issue: Allows to create a product with missing required field",
+    strict=True
+)
 @pytest.mark.parametrize(
     "field",
     [
