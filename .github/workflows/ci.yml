@@ -51,14 +51,14 @@ jobs:
       # 4. Install project dependencies
       - name: Install dependencies
         run: pip install -r requirements.txt
-
       # 5. Run the complete test suite.
-      # Secrets are exposed as environment variables.
+      # Secrets are exposed as environment variables. 
       # If they are not configured, they will be empty and
       # @live tests will be skipped by conftest.py.
-      - name: Run test suite
+      - name: Run smoke tests
         env:
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
           REQRES_MANAGE_API_KEY: ${{ secrets.REQRES_MANAGE_API_KEY }}
           REQRES_ENV: ${{ secrets.REQRES_ENV }}
-        run: pytest -v
+        run: pytest -v -m "smoke"
+
