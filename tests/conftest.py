@@ -4,10 +4,13 @@ import pytest
 
 from clients.reqres_client import ReqresClient
 
+from config.enviroment import (
+    can_run_live_tests,
+    can_run_write_tests,
+)
+
 
 def pytest_collection_modifyitems(config, items):
-    has_read_key = bool(os.getenv("REQRES_API_KEY") or os.getenv("REQRES_MANAGE_API_KEY"))
-    has_manage_key = bool(os.getenv("REQRES_MANAGE_API_KEY"))
 
     skip_live = pytest.mark.skip(
         reason="REQRES_API_KEY is not configured; live Reqres tests are skipped"
@@ -17,11 +20,11 @@ def pytest_collection_modifyitems(config, items):
     )
 
     for item in items:
-        if "live" in item.keywords and not has_read_key:
+        if "live" in item.keywords and not can_run_live_tests():
             item.add_marker(skip_live)
         if (
             "write" in item.keywords or "destructive" in item.keywords
-        ) and not has_manage_key:
+        ) and not can_run_write_tests():
             item.add_marker(skip_write)
 
 
