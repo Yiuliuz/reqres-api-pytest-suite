@@ -51,10 +51,22 @@ jobs:
       # 4. Install project dependencies
       - name: Install dependencies
         run: pip install -r requirements.txt
-      # 5. Run the complete test suite.
-      # Secrets are exposed as environment variables. 
-      # If they are not configured, they will be empty and
-      # @live tests will be skipped by conftest.py.
+      
+        # 5. Verify that the ReqRes API is available before executing tests.
+      # The script reuses the same health-check logic used by pytest hooks.
+      # If the API is unavailable or the daily request quota is exhausted,
+      # the workflow fails early and avoids running a doomed test session.
+      - name: Check API health
+        env:
+          REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+          REQRES_MANAGE_API_KEY: ${{ secrets.REQRES_MANAGE_API_KEY }}
+          REQRES_ENV: ${{ secrets.REQRES_ENV }}
+        run: python -m scripts.check_api_health
+
+      # 6. Execute the smoke test suite.
+      # Secrets are exposed as environment variables.
+      # Tests requiring missing credentials are skipped by conftest.py.
+      # An additional API precondition is enforced by pytest before test execution.
       - name: Run smoke tests
         env:
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
