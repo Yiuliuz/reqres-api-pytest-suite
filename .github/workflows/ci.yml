@@ -67,10 +67,28 @@ jobs:
       # Secrets are exposed as environment variables.
       # Tests requiring missing credentials are skipped by conftest.py.
       # An additional API precondition is enforced by pytest before test execution.
+      # Test execution reports are generated in HTML and JUnit XML formats.
       - name: Run smoke tests
         env:
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
           REQRES_MANAGE_API_KEY: ${{ secrets.REQRES_MANAGE_API_KEY }}
           REQRES_ENV: ${{ secrets.REQRES_ENV }}
-        run: pytest -v -m "smoke"
+        run: |
+          pytest \
+            -v \
+            -m "smoke" \
+            --html=reports/report.html \
+            --self-contained-html \
+            --junitxml=reports/junit.xml
+
+      # 7. Upload reports as GitHub actions artifacts.
+      # Reports are always generated, even if suite fails before start.
+      # Each matrix job stores its own reports for the corresponding Python version.
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: 
+          name: test-reports-py${{ matrix.python-version }}
+          path: reports/
+
 
