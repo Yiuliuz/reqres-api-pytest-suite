@@ -7,6 +7,7 @@ class ReqresClient:
             "X-Reqres-Env": environment,
             "User-Agent": "qa-pytest-practice/1.0",
         }
+        self.request_history = []
 
     def get_product(self,id):
         return self._request("GET", f"/api/collections/products/records/{id}")
@@ -45,10 +46,22 @@ class ReqresClient:
         headers = kwargs.pop("headers", {})
         merged_headers = {**self.default_headers, **headers}
 
-        return requests.request(
+        response = requests.request(
             method=method,
             url=f"{self.base_url}{path}",
             headers=merged_headers,
             timeout=self.timeout,
             **kwargs,
         )
+
+        self.request_history.append(
+            {
+                "method": method,
+                "url": f"{self.base_url}{path}",
+                "request_headers": merged_headers,
+                "request_body": kwargs.get("json"),
+                "response": response,
+            }
+        )
+
+        return response
