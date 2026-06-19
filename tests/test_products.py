@@ -3,6 +3,7 @@ import pytest
 from schemas.product_schema import assert_product_contract,assert_product_schema
 from helpers.product_assertions import assert_product_matches_payload
 from helpers.cleanup_helpers import cleanup_product_if_created
+from helpers.header_assertions import assert_common_headers
 
 
 pytestmark = [pytest.mark.api, pytest.mark.live]
@@ -21,6 +22,8 @@ def test_list_products_returns_200_and_records_list(reqres_client):
     assert response.status_code == 200, (
         f"GET products should return 200. "
         f"Status={response.status_code}, body={response.text}")
+    #AND common HTTP headers are present
+    assert_common_headers(response)
     #AND there is data in the body
     body = response.json()
     assert "data" in body, f"Response should include 'data'. Body={body}"
