@@ -117,3 +117,15 @@ The following defects were identified during testing of the
 
 These issues were discovered through automated negative testing
 and are currently documented as known API limitations.
+
+## Test Reports
+
+This project supports two report formats:
+
+- HTML report (pytest-html)
+- JUnit XML report
+
+Generate reports with:
+
+```bash
+pytest --html=reports/report.html --self-contained-html --junitxml=reports/junit.xml
