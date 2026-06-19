@@ -56,7 +56,6 @@ def test_products_match_basic_contract(reqres_client):
 
 
 @pytest.mark.regression
-@pytest.mark.write
 @pytest.mark.destructive
 def test_create_product_returns_success_status(
     reqres_manage_client,
@@ -85,7 +84,6 @@ def test_create_product_returns_success_status(
         cleanup_product_if_created(reqres_manage_client,response)
 
 
-@pytest.mark.write
 @pytest.mark.regression
 def test_update_product_returns_success_and_persists_changes(
         reqres_manage_client,
@@ -130,7 +128,7 @@ def test_update_product_returns_success_and_persists_changes(
     finally:
         cleanup_product_if_created(reqres_manage_client, create_response)
 
-@pytest.mark.write
+
 @pytest.mark.destructive
 @pytest.mark.regression
 def test_delete_product_returns_204_and_removes_product(
@@ -177,7 +175,6 @@ def test_delete_product_returns_204_and_removes_product(
     )
 
 
-@pytest.mark.write
 @pytest.mark.contract
 @pytest.mark.negative
 @pytest.mark.known_issue
@@ -219,7 +216,6 @@ def test_create_product_with_empty_field_returns_error_status(
         cleanup_product_if_created(reqres_manage_client, response)
 
 
-@pytest.mark.write
 @pytest.mark.contract
 @pytest.mark.negative
 @pytest.mark.known_issue
@@ -265,7 +261,7 @@ def test_create_product_with_invalid_type_field_returns_error_status(
     finally:
         cleanup_product_if_created(reqres_manage_client, response)
 
-@pytest.mark.write
+
 @pytest.mark.contract
 @pytest.mark.negative
 @pytest.mark.known_issue
