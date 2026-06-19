@@ -6,3 +6,5 @@ htmlcov/
 .venv/
 venv/
 .env
+reports/*.html
+reports/*.xml
