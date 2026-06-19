@@ -6,6 +6,7 @@ from clients.reqres_client import ReqresClient
 
 from helpers.client_factory import create_reqres_client,create_reqres_manage_client
 from helpers.api_health import ensure_api_available
+from helpers.print_helpers import print_request_history
 
 from config.enviroment import (
     can_run_live_tests,
@@ -47,6 +48,19 @@ def pytest_collection_modifyitems(config, items):
         ) and not can_run_write_tests():
             item.add_marker(skip_write)
 
+def pytest_runtest_makereport(item, call):
+    if call.when == "call" and call.excinfo is not None:
+        print("FAILED")
+
+        clients = [
+            obj
+            for obj in item.funcargs.values()
+            if isinstance(obj, ReqresClient)
+        ]
+        for client in clients:
+            test_name=item.nodeid.split("::")[-1]
+            print_request_history(client,test_name)
+
 
 def pytest_runtestloop(session):
     requires_api = session.config.stash.get(
@@ -67,10 +81,15 @@ def pytest_runtestloop(session):
             returncode=1,
         )
 
+
+@pytest.fixture(autouse=True)
+def clear_request_history(reqres_client, reqres_manage_client):
+    reqres_client.request_history.clear()
+    reqres_manage_client.request_history.clear()
+
 @pytest.fixture(scope="session")
 def reqres_client():
     return create_reqres_client()
-
 
 @pytest.fixture(scope="session")
 def reqres_manage_client():
