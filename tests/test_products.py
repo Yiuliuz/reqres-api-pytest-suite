@@ -4,6 +4,7 @@ from schemas.product_schema import assert_product_contract,assert_product_schema
 from helpers.product_assertions import assert_product_matches_payload
 from helpers.cleanup_helpers import cleanup_product_if_created
 from helpers.header_assertions import assert_common_headers
+from helpers.performance import assert_response_time
 
 
 pytestmark = [pytest.mark.api, pytest.mark.live]
@@ -32,6 +33,16 @@ def test_list_products_returns_200_and_records_list(reqres_client):
         f"The data field should be a list. Body={body}"
     )
 
+@pytest.mark.smoke
+@pytest.mark.read_only
+def test_list_products_response_time(reqres_client):
+    #GIVEN a configured api client
+
+    #WHEN get a list products
+    response = reqres_client.get_products()
+
+    #THEN response time is under 2 seconds
+    assert_response_time(response)
 
 @pytest.mark.read_only
 @pytest.mark.regression
